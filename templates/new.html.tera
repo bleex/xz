@@ -1,0 +1,9 @@
+{% extends "base" %}
+
+{% block content %}
+    <h1>Hi {{name}}</h1>
+    <form action="/{{name}}/new" method="post">
+    Target for link {{name}}: <input type="text" name="dest"><input type="submit" value="Submit">
+    </form>
+
+{% endblock content %}
