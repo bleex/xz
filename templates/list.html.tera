@@ -2,6 +2,8 @@
 
 {% block content %}
     <h1>Hi all</h1>
-
+{% for key, value in links %}
+{{ key }} - {{ value }}
+{% endfor %}
 
 {% endblock content %}

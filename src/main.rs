@@ -31,11 +31,13 @@ fn list() -> Template {
     let connection = establish_connection();
     let results = links.load::<Link>(&connection)
         .expect("Error loading links");
-    let mut context = HashMap::new();
+    let mut links_tmpl = HashMap::new();
     for l in results {
         println!("{} {}", l.src, l.dst);
-        context.insert(l.src, l.dst);
+        links_tmpl.insert(l.src, l.dst);
     }
+    let mut context = HashMap::new();
+    context.insert("links", links_tmpl);
 
     Template::render("list", &context)
 } 
