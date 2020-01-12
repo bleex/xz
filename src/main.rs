@@ -12,6 +12,7 @@ use rocket::response::Redirect;
 use rocket::request::Form;
 use rocket_contrib::templates::Template;
 use std::env;
+use std::collections::HashMap;
 
 use xz::schema::links::dsl::*;
 use xz::models::Link;
@@ -25,17 +26,18 @@ pub fn establish_connection() -> PgConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
-
 #[get("/")]
-fn list() -> String {
+fn list() -> Template {
     let connection = establish_connection();
     let results = links.load::<Link>(&connection)
         .expect("Error loading links");
+    let mut context = HashMap::new();
     for l in results {
         println!("{} {}", l.src, l.dst);
+        context.insert(l.src, l.dst);
     }
 
-    format!("Hello world")
+    Template::render("list", &context)
 } 
 
 #[get("/<name>")]
